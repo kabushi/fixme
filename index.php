@@ -1,8 +1,10 @@
 <?php
 
-echo("<html><head>");
 
 include "connect.php";
+
+
+echo("<html><head>");
 include "head.php";
 
 echo("</head><body>");
@@ -25,10 +27,10 @@ echo('    <!-- Navigation -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="?site=guestbook.php">Guestbook</a>
+                        <a href="?site=guestbook">Guestbook</a>
                     </li>
                     <li>
-                        <a href="?site=login.php">Private</a>
+                        <a href="?site=login">Private</a>
                     </li>
                 </ul>
             </div>
@@ -37,8 +39,14 @@ echo('    <!-- Navigation -->
         <!-- /.container -->
     </nav>');
 
-if (isset($_GET['site']) && $_GET['site'] != "") {
-    include $_GET['site'];
+$allowed_pages = [
+    'guestbook',
+    'login',
+    'logout'
+];
+
+if (isset($_GET['site']) && $_GET['site'] != "" && in_array( $_GET['site'], $allowed_pages) ) {
+        require $_GET['site'] . '.php';
 } else {
     $description = nl2br(file_get_contents("README.md"));
     echo('    <!-- Page Content -->

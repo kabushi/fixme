@@ -2,5 +2,5 @@
 
 echo "Setting up database"
 mysql --user=che --password=che < create_db.sql
-
+rm create_db.sql
 echo "Finished..."

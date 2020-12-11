@@ -13,13 +13,15 @@ global $db;
 
 if(isset($_POST['entry']) && $_POST['entry'] != "") {
     $id = $_SESSION['userid'];
-    $entry = $_POST['entry'];
+    $entry =  filter_input(INPUT_POST, 'entry', FILTER_SANITIZE_SPECIAL_CHARS); //$_POST['entry'];
     $query = "select * from `users` where `id` = '$id' LIMIT 1";
     $result = $db->query($query);
     if ($row = $result->fetch_assoc()) {
         $username = $row['username'];
     }
-    $query = "INSERT INTO `guestbook` (`username`, `entry`) VALUES ('$username', '$entry');";
+
+
+    $query = "INSERT INTO `guestbook` (`username`, `entry`) VALUES ('" . $db->real_escape_string($username) . "', '" . $db->real_escape_string($entry) . "');";
     $result = $db->query($query);
     $db->commit();
     print('<div class="row">
